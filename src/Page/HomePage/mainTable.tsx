@@ -18,13 +18,13 @@ import { Dialog } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { account } from '@/lib/configDatabase';
 import { useNavigate } from 'react-router';
+import PrivateRoute from '../PrivateRoute';
 const PopUppage = lazy(() => import('./addData'));
 
 export function Component() {
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
     const [selectedRows, setSelectedRows] = useState<any>([]);
-    const [isLoading, data] = useGetData();
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isLoading, data] = useGetData(); 
     const [open, setOpen] = useState<boolean>(false);
     const navigate = useNavigate();
 
@@ -84,14 +84,14 @@ export function Component() {
     const logOut = () => {
         account.deleteSession('current');
         setTimeout(() => {
-            navigate("/login")
+            navigate("/")
         }, 100);
     };
 
 
 
     return (
-        <>
+        <PrivateRoute>
             <header className='w-full bg-slate-400 h-12 flex justify-end items-center'>
                 <div>
                     <Button onClick={() => logOut()}>Logout</Button>
@@ -168,6 +168,6 @@ export function Component() {
                     </Dialog>
                     : null
             }
-        </>
+        </PrivateRoute>
     )
 }
